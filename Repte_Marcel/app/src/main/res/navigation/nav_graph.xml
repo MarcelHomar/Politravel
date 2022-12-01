@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FirstFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.example.repte_marcel.ui.Home.FirstFragment"
+        android:label="Travel Packages"
+        tools:layout="@layout/fragment_first"
+        >
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment"
+            />
+        <action
+            android:id="@+id/action_FirstFragment_to_composeFragment"
+            app:destination="@id/composeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.example.repte_marcel.ui.Home.SecondFragment"
+        android:label="Travel Detail"
+        tools:layout="@layout/fragment_second">
+
+        <argument
+            android:name="packageId"
+            app:argType="long"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/composeFragment"
+        android:name="Compose.ComposeFragment"
+        android:label="fragment_compose"
+        tools:layout="@layout/fragment_compose" />
+</navigation>

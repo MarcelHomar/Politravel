@@ -1,0 +1,27 @@
+<layout>
+
+
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="Compose.ComposeFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/package_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/package_card_detail_transition_name"
+                android:gravity="center"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+</layout>

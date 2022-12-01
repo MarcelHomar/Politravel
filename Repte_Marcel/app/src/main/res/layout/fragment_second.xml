@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.example.repte_marcel.data.TravelPackage" />
+
+        <variable
+            name="travelPackage"
+            type="TravelPackage" />
+
+    </data>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.Home.SecondFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/package_card_view"
+            style="@style/Widget.Material3.CardView.Elevated"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionName="@string/package_card_detail_transition_name"
+
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    app:cardCornerRadius="25dp"
+                    android:layout_marginTop="-20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+
+                        android:id="@+id/imageView"
+                        loadImageFromFilesDir="@{travelPackage.image}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:paddingTop="20dp"/>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageContainer">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent">
+
+                        <TextView
+                            android:id="@+id/textPackageTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:text="@{travelPackage.title}"
+                            android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageCalendar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/textPackageTitle"
+                            app:srcCompat="@drawable/calendar" />
+
+                        <TextView
+                            android:id="@+id/textCalendar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="@{travelPackage.aproxTime}"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageCalendar"
+                            app:layout_constraintStart_toEndOf="@+id/imageCalendar"
+                            app:layout_constraintTop_toTopOf="@+id/imageCalendar" />
+
+                        <ImageView
+                            android:id="@+id/imageTransport"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="16dp"
+                            app:layout_constraintEnd_toEndOf="@+id/imageCalendar"
+                            app:layout_constraintStart_toStartOf="@+id/imageCalendar"
+                            app:layout_constraintTop_toBottomOf="@+id/imageCalendar"
+                            app:srcCompat="@drawable/vehicle" />
+
+                        <TextView
+                            android:id="@+id/textCurrentTransport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:text="@{travelPackage.transport}"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageTransport"
+                            app:layout_constraintStart_toEndOf="@+id/imageTransport"
+                            app:layout_constraintTop_toTopOf="@+id/imageTransport" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

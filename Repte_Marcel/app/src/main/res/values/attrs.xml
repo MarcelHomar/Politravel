@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--A variant of primarySurface which corresponds to colorPrimaryVariant in light theme-->
+    <!--and colorSurface in dark theme-->
+    <attr name="colorPrimarySurfaceVariant" format="color" />
+
+</resources>
