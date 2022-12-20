@@ -1,28 +1,27 @@
 package com.example.repte_marcel.ui.Home
 
+
 import android.graphics.Color
 import android.os.Bundle
-import android.transition.TransitionInflater
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.repte_marcel.ui.PackageAdapter
 import com.example.repte_marcel.R
 import com.example.repte_marcel.data.TravelPackage
 import com.example.repte_marcel.databinding.FragmentFirstBinding
+import com.example.repte_marcel.ui.PackageAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -120,6 +119,24 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
 
     override fun onPackageLongPressed(travelPackage: TravelPackage): Boolean {
         //TODO: Delete this package from the list
+
+
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Title")
+            .setMessage("Your message goes here. Keep it short but clear.")
+            .setPositiveButton(
+                "EDIT"
+            ) { _, _ ->
+
+            }
+            .setNeutralButton(
+                "DELETE"
+            ) { _, _ ->
+
+            }
+            .show()
+
         return true
     }
 }
