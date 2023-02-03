@@ -3,15 +3,29 @@ package com.example.repte_marcel.ui.Home
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import android.widget.ArrayAdapter
+import androidx.fragment.app.*
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.repte_marcel.R
+import com.example.repte_marcel.data.TravelPackage
 import com.example.repte_marcel.databinding.FragmentSecondBinding
+import com.example.repte_marcel.ui.CustomGridLayoutManager
+import com.example.repte_marcel.ui.ItineraryAdapter
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.transition.MaterialContainerTransform
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import util.loadImageFromFilesDir
 import kotlin.LazyThreadSafetyMode.NONE
 import util.themeColor
@@ -27,6 +41,8 @@ class SecondFragment : Fragment() {
     private val sharedViewModel : HomeViewModel by activityViewModels()
 
     private var _binding: FragmentSecondBinding? = null
+
+    private lateinit var travelPackage: TravelPackage
 
     object PackageConstants {
         const val travelPackage = "PACKAGE"
@@ -50,6 +66,8 @@ class SecondFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.getSerializable(PackageConstants.travelPackage)
 
+
+
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             // Scope the transition to a view in the hierarchy so we know it will be added under
             // the bottom app bar but over the elevation scale of the exiting HomeFragment.
@@ -65,13 +83,18 @@ class SecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val travelPackage = sharedViewModel.getFromId(travelPackageId)
+        travelPackage = sharedViewModel.getFromId(travelPackageId)!!
+        val travelPackageBinding = travelPackage
         if (travelPackage == null) {
             showError()
             return
         }
         binding.run {
-            binding.travelPackage = travelPackage
+
+            binding.travelPackage = travelPackageBinding
+            binding.travelPackageLastIndex = travelPackageBinding.itinerary.size - 1
+
+
 
 //
 //            val path = requireContext().filesDir.absolutePath.toString() + "/img/" + travelPackage.image + ".jpg"
@@ -80,9 +103,20 @@ class SecondFragment : Fragment() {
 
         }
 
-//        binding.buttonSecond.setOnClickListener {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//        }
+
+
+        val adapter : ItineraryAdapter = ItineraryAdapter(requireContext(), travelPackage.itinerary)
+        val layoutManager = CustomGridLayoutManager(requireContext())
+        layoutManager.setScrollEnabled(false)
+        binding.ListViewItinerary.layoutManager = layoutManager
+
+        binding.ListViewItinerary.adapter = adapter
+
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.fragmentMap) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+
+
     }
 
     override fun onDestroyView() {
@@ -92,5 +126,23 @@ class SecondFragment : Fragment() {
 
     private fun showError(){
         //
+    }
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        val location = LatLng(travelPackage.latitude.toDouble(), travelPackage.longitude.toDouble())
+        googleMap.addMarker(MarkerOptions().position(location).title(travelPackage.title))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, travelPackage.zoom.toFloat()))
+//        val sydney = LatLng(-34.0, 151.0)
+//        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 11f))
     }
 }

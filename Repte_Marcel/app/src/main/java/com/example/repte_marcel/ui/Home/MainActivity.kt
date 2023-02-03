@@ -1,16 +1,16 @@
 package com.example.repte_marcel.ui.Home
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-
-import androidx.fragment.app.Fragment
 import com.example.repte_marcel.R
 import com.example.repte_marcel.databinding.ActivityMainBinding
 import com.google.android.material.transition.MaterialElevationScale
@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private val sharedViewModel : HomeViewModel by viewModels()
 
     private val currentNavigationFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
@@ -41,14 +43,22 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        if(currentNavigationFragment is SecondFragment){
+            binding.fab.visibility = View.INVISIBLE
+        }
+
 
         binding.fab.setOnClickListener {
             navigateToCompose()
+
         }
+
+
 
     }
 
     private fun navigateToCompose(){
+
         currentNavigationFragment?.apply {
             exitTransition = MaterialElevationScale(false).apply {
                 duration = 300
@@ -59,6 +69,9 @@ class MainActivity : AppCompatActivity() {
         }
         val directions = FirstFragmentDirections.actionFirstFragmentToComposeFragment()
         findNavController(R.id.nav_host_fragment_content_main).navigate(directions)
+
+
+
     }
 
 
@@ -74,5 +87,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    fun setActionBarTitle(title: String?) {
+        supportActionBar?.title = title
     }
 }

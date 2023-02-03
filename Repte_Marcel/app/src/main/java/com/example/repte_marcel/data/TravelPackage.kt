@@ -9,7 +9,11 @@ class TravelPackage(
     var title : String,
     var image : String,
     var aproxTime : String,
-    var transport : String
+    var transport : String,
+    var itinerary : List<String>,
+    var latitude : String,
+    var longitude : String,
+    var zoom : String,
     ) : Serializable {
 }
 

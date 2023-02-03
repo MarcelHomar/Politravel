@@ -1,13 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/favorite"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="Search"
-        android:contentDescription="Description"
-        app:showAsAction="ifRoom"
-        />
-
-
 </menu>

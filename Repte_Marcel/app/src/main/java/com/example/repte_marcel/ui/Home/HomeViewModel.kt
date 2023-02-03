@@ -8,50 +8,47 @@ import com.example.repte_marcel.data.TravelPackage
 
 class HomeViewModel : ViewModel() {
 
-    var allTravelPackage = initTravelPackages()
+    private var _travelPackageList = mutableListOf<TravelPackage>()
 
-    var TravelPackageListMutable = MutableLiveData(initTravelPackages())
+    var travelPackageListMutable = MutableLiveData(_travelPackageList)
 
 
-    fun initTravelPackages() : MutableList<TravelPackage>{
-        val myList = mutableListOf(
-            TravelPackage(id = 1,
-                title = "Bali Islands",
-                image = "bali",
-                aproxTime = "4-5 days",
-                transport = "Car"),
-            TravelPackage(id = 2,
-                title = "Budapest",
-                image = "budapest",
-                aproxTime = "15 days",
-                transport = "Train"),
-            TravelPackage(id = 3,
-                title = "Bali Islands",
-                image = "bali",
-                aproxTime = "7 days",
-                transport = "Bus"),
-            TravelPackage(id = 4,
-                title = "Budapest",
-                image = "budapest",
-                aproxTime = "1 day",
-                transport = "Airplane"),
-            TravelPackage(id = 5,
-                title = "Bali Islands",
-                image = "bali",
-                aproxTime = "5 days",
-                transport = "Boat"),
-            TravelPackage(id = 6,
-                title = "Budapest",
-                image = "budapest",
-                aproxTime = "500 days",
-                transport = "Airplanes")
+    fun addTravelPackage() {
 
+        _travelPackageList.add(
+            TravelPackage(id = 7,
+                title = "Angola",
+                image = "angola",
+                aproxTime = "13 days",
+                transport = "Train",
+                listOf(
+                    "Bali",
+                    "Angola",
+                    "Budapest"
+                ),
+                latitude = "",
+                longitude = "",
+                zoom = "")
         )
-        return myList
+
+        travelPackageListMutable.value = _travelPackageList
+
+    }
+
+    fun sortPackagesByTransport(){
+        _travelPackageList.sortBy { item -> item.transport }
+        travelPackageListMutable.value = _travelPackageList
+    }
+
+    fun initTravelPackages(myList : MutableList<TravelPackage>){
+
+        _travelPackageList = myList
+        travelPackageListMutable.value = _travelPackageList
+
     }
 
 
     fun getFromId(id : Long) : TravelPackage? {
-        return allTravelPackage.firstOrNull { it.id == id}
+        return _travelPackageList.firstOrNull { it.id == id}
     }
 }

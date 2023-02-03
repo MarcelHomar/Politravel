@@ -14,6 +14,9 @@
     <string name="package_card_transition_name">package_card_%1$s</string>
     <string name="package_card_detail_transition_name">package_card_detail</string>
 
+    <string name="from">From: %s</string>
+    <string name="to">To: %s</string>
+
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

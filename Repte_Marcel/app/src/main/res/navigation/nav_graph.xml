@@ -23,7 +23,6 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.repte_marcel.ui.Home.SecondFragment"
-        android:label="Travel Detail"
         tools:layout="@layout/fragment_second">
 
         <argument
@@ -33,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/composeFragment"
-        android:name="Compose.ComposeFragment"
-        android:label="fragment_compose"
+        android:name="com.example.repte_marcel.ui.Compose.ComposeFragment"
+        android:label="New Package"
         tools:layout="@layout/fragment_compose" />
 </navigation>

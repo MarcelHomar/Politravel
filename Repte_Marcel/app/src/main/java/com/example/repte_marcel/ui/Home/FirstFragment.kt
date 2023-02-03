@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +19,14 @@ import com.example.repte_marcel.R
 import com.example.repte_marcel.data.TravelPackage
 import com.example.repte_marcel.databinding.FragmentFirstBinding
 import com.example.repte_marcel.ui.PackageAdapter
+import com.example.repte_marcel.util.JsonUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /**
@@ -66,6 +72,11 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch(){
+            val list = JsonUtil.getTravelPackages(requireContext())
+            sharedViewModel.initTravelPackages(list)
+        }
+
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -77,9 +88,13 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
         binding.listPackages.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.listPackages.adapter = packageAdapter
 
-        sharedViewModel.TravelPackageListMutable.observe(viewLifecycleOwner){
+        sharedViewModel.travelPackageListMutable.observe(viewLifecycleOwner){
             packageAdapter.submitList(it)
         }
+
+
+
+
 
 
 //        binding.buttonFirst.setOnClickListener {
@@ -96,6 +111,9 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
 
     override fun onPackageClicked(cardView: View, travelPackage: TravelPackage) {
 
+        val activity = requireActivity() as MainActivity
+        activity.setActionBarTitle(travelPackage.title)
+
 
         exitTransition = MaterialElevationScale(false).apply {
             duration = 300
@@ -109,8 +127,15 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
         val transitionName = getString(R.string.package_card_detail_transition_name)
         val extras = FragmentNavigatorExtras(cardView to transitionName)
 
+
+
         val directions = FirstFragmentDirections.actionFirstFragmentToSecondFragment(travelPackage.id)
         findNavController().navigate(directions, extras)
+
+
+        val fab = activity.findViewById<FloatingActionButton>(R.id.fab)
+
+        fab.visibility = View.INVISIBLE
 
 
 
@@ -138,5 +163,14 @@ class FirstFragment : Fragment(), PackageAdapter.PackageAdapterListener {
             .show()
 
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fab)
+        if (fab.visibility == View.INVISIBLE){
+            fab.visibility = View.VISIBLE
+        }
+
     }
 }
